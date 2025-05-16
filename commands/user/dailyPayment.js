@@ -53,7 +53,7 @@ module.exports = {
                 daysRemaining = (lastDayOfMonth - today) + paymentDay;
             }
 
-            channel.send(`<:ryo4:1271506831222636625> @everyone Faltam **${daysRemaining}** dia(s) para o pagamento!`);
-        }, 86400); // 1 hora
+            channel.send(`<:ryo4:1271506831222636625>  Faltam **${daysRemaining}** dia(s) para o pagamento!`);
+        }, 86400000); // 1 hora
     },
 };

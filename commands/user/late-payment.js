@@ -45,10 +45,10 @@ module.exports = {
             let daysLate = today - paymentDay;
 
             if (daysLate > 0) {
-                channel.send(`<:sad:1270177365074382941> @everyone O pagamento está atrasado há **${daysLate}** dia(s)!`);
+                channel.send(`<:sad:1270177365074382941> O pagamento está atrasado há **${daysLate}** dia(s)!`);
             } else {
                 channel.send(`✅ Nenhum atraso até agora. Dia de pagamento: ${paymentDay}`);
             }
-        }, 86400); // 1 hora
+        }, 86400000); // 1 hora
     },
 };
