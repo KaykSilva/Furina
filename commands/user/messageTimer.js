@@ -1,19 +1,43 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, ChannelType } = require('discord.js');
 
-let intervalStarted = false; 
+let intervalStarted = false;
+
+const phase = [
+    '🗨️ Chat!',
+    '📄 Histórico!',
+    '🚀 Migrate já foi feita?',
+    '🛏️ Histórico das cama',
+];
+
+const OwnerID = '783914991006253087';
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('timer')
-        .setDescription('Inicia um timer que envia mensagens no canal específico.'),
-    async execute(interaction) {
-        const channelId = '1216572060344647752';
-        const channel = interaction.client.channels.cache.get(channelId);
+        .setDescription('Envia mensagens a cada 1h para uma pessoa específica')
+        .setDefaultMemberPermissions(0)
+        .addChannelOption(option =>
+            option.setName('canal')
+                .setDescription('Canal onde as mensagens serão enviadas')
+                .setRequired(true)
+                .addChannelTypes(ChannelType.GuildText)
+        )
+        .addUserOption(option =>
+            option.setName('usuario')
+                .setDescription('Usuário que será mencionado')
+                .setRequired(true)
+        ),
 
-        if (!channel || !channel.isTextBased()) {
-            console.error('Canal não encontrado ou não é um canal de texto.');
-            return await interaction.reply('Erro: canal inválido.');
+    async execute(interaction) {
+        if (interaction.user.id !== OwnerID) {
+            return await interaction.reply({
+                content: '❌ Você não tem permissão para usar este comando.',
+                ephemeral: true,
+            });
         }
+
+        const channel = interaction.options.getChannel('canal');
+        const user = interaction.options.getUser('usuario');
 
         if (intervalStarted) {
             return await interaction.reply('⏱️ O timer já está rodando!');
@@ -21,10 +45,11 @@ module.exports = {
 
         intervalStarted = true;
 
-        await interaction.reply('✅ Timer iniciado! Enviando mensagens a cada 10 segundos.');
+        await interaction.reply(`✅ Timer iniciado! Enviando mensagens em ${channel} mencionando ${user} a cada 1h.`);
 
         setInterval(() => {
-            channel.send(`<@495600222467129344>Migrate, Histórico e Tela de Histórico,`);
-        }, 3600000);
+            const randomPhase = phase[Math.floor(Math.random() * phase.length)];
+            channel.send(`<@${user.id}> ${randomPhase}`);
+        }, 3600000); // 1 hora
     },
 };
