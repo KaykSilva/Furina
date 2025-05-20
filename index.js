@@ -39,8 +39,5 @@ for (const file of eventFiles) {
 	}
 }
 
-client.once(Events.ClientReady, readyClient => {
-    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
 
 client.login(token);
