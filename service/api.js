@@ -23,8 +23,6 @@ Api.interceptors.request.use(
             config.headers['Authorization'] = `Bearer ${token}`;
         }
 
-        console.log("HEADERS FINAL:", config.headers);
-
         return config;
     },
     (error) => Promise.reject(error)

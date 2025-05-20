@@ -1,5 +1,5 @@
 {
-  "name": "ryobotv3",
+  "name": "ryobot",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,8 +16,8 @@
     "axios": "^1.9.0",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
-    "furina": "file:",
     "nodemon": "^3.1.10",
+    "ryobot": "file:",
     "ryobotv3": "file:"
   },
   "devDependencies": {

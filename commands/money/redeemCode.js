@@ -14,7 +14,6 @@ module.exports = {
 
   async execute(interaction) {
     const discordId = interaction.user.id;
-
     const hasUser = await verifyUser(discordId);
 
     if (!hasUser) {
@@ -53,8 +52,6 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
 
     } catch (error) {
-      console.error("Erro ao resgatar código:", error);
-
       await interaction.reply({
         content: '❌ Código inválido, já utilizado ou expirado.',
         ephemeral: true,

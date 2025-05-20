@@ -5,10 +5,8 @@ const axios = require('axios');
 
     try {
         const response = await Api.get(`user/${id}`);
-        console.log(response.status);
-        return response.status;
+        return response;
     } catch (error) {
-        console.error(error);
         if (axios.isAxiosError(error)) {
             const statusCode = error.response?.status; 
             return statusCode
