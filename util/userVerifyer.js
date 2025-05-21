@@ -6,7 +6,10 @@ async function userVerifyer(id) {
         if (response.status === 404) {
             return false
         }
-       return response
+
+        if (response.status === 200) {
+            return true
+        }
     } catch (error) {
         console.error(error);
     }

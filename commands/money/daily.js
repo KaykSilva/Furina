@@ -13,7 +13,7 @@ module.exports = {
         const discordId = interaction.user.id;
         const userName = interaction.user.username;
         const hasUser = await verifyUser(discordId);
-
+        console.log(hasUser);
         if (!hasUser) {
             try {
                 await createUser(discordId, userName);
