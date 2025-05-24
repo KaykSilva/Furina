@@ -4,7 +4,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
 const token = process.env.TOKEN;
 
 const commands = [];
@@ -31,12 +30,11 @@ const rest = new REST().setToken(token);
 (async () => {
 	try {
 		console.log(`⏳ Registrando ${commands.length} comandos...`);
-			const guildData = await rest.put(
-				Routes.applicationGuildCommands(clientId, guildId),
-				{ body: commands }
-			);
-			console.log(`✅ Comandos registrados na guilda: ${guildData.length}`);
-	
+		const globalData = await rest.put(
+			Routes.applicationCommands(clientId),
+			{ body: commands }
+		);
+		console.log(`✅ Comandos registrados globalmente: ${globalData.length}`);
 	} catch (error) {
 		console.error('❌ Erro ao registrar comandos:', error);
 	}
