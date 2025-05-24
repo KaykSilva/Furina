@@ -1,7 +1,15 @@
-const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  AttachmentBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+  ComponentType
+} = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const verifyUser = require("../../util/userVerifyer");
 const getUser = require("../../service/get/user/getUser");
+const showBanners = require("./showBanners");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,10 +24,8 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply();
 
-    // Pegando o usuário escolhido (ou o autor do comando)
     const target = interaction.options.getUser("usuário") || interaction.user;
     const member = interaction.guild.members.cache.get(target.id);
-
     const userId = target.id;
 
     try {
@@ -63,7 +69,6 @@ module.exports = {
 
       context.fillStyle = badgeAreaColor;
       context.fillRect(380, 180, 100, 30);
-
       context.drawImage(badgeImage, 390, 180, 35, 30);
 
       const avatarX = 20;
@@ -113,7 +118,32 @@ module.exports = {
       context.fillText(`${formattedBalance} Ryocoins`, coinX + coinSize + 10, coinY + 17);
 
       const attachment = new AttachmentBuilder(canvas.toBuffer(), { name: "profile-image.png" });
-      await interaction.editReply({ files: [attachment] });
+
+      const customizeButton = new ButtonBuilder()
+        .setCustomId('customize_profile')
+        .setLabel('🎨 Personalizar')
+        .setStyle(ButtonStyle.Primary);
+
+      const row = new ActionRowBuilder().addComponents(customizeButton);
+
+      await interaction.editReply({
+        files: [attachment],
+        components: [row],
+      });
+
+      // Coletor do botão
+      const filter = i =>
+        i.customId === 'customize_profile' && i.user.id === interaction.user.id;
+
+      const collector = interaction.channel.createMessageComponentCollector({
+        filter,
+        componentType: ComponentType.Button,
+        time: 15000,
+      });
+
+      collector.on('collect', async i => {
+        await showBanners(i);
+      });
 
     } catch (error) {
       console.error("Erro ao gerar a imagem de perfil:", error);
