@@ -29,7 +29,8 @@ module.exports = {
 
         const getBannerEmbed = (index) => {
             return new EmbedBuilder()
-                .setTitle(`Banner #${index + 1} de ${banners.length}`)
+                .setTitle(`Banner ${banners[index].name}`)
+                .setDescription( `${index + 1} de ${banners.length}`)
                 .setImage(banners[index].imageUrl)
                 .setColor("#0099ff")
                 .setFooter({ text: "Use os botões abaixo para navegar ou selecionar." });
