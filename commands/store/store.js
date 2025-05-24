@@ -44,7 +44,7 @@ module.exports = {
                 const banner = banners[index];
                 return new EmbedBuilder()
                     .setTitle(`🖼️ Banner: ${banner.name}`)
-                    .setDescription(`<:ryocoins:1271500356613832794> Preço: **${banner.price} ryocoins**`/n)
+                    .setDescription(`<:ryocoins:1271500356613832794> Preço: **${banner.price} ryocoins**`)
                     .setImage(banner.imageUrl)
                     .setColor(0x00ae86)
                     .setFooter({ text: `Página ${index + 1} de ${banners.length}` });
